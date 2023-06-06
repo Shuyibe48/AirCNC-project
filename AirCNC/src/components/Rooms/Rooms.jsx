@@ -7,6 +7,7 @@ import Loader from '../Shared/Loader';
 import { useSearchParams } from 'react-router-dom';
 import { el } from 'date-fns/locale';
 import Heading from '../Heading/Heading';
+import { getAllRooms } from '../../api/rooms';
 
 const Rooms = () => {
     const [params, setParams] = useSearchParams()
@@ -17,8 +18,7 @@ const Rooms = () => {
 
     useEffect(() => {
         setLoading(true)
-        fetch('./rooms.json')
-            .then(res => res.json())
+        getAllRooms()
             .then(data => {
                 if (category) {
                     const filtered = data.filter(room => room.category === category)
@@ -40,8 +40,8 @@ const Rooms = () => {
         <Container>
             {rooms && rooms.length > 0 ? <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
                 {
-                    rooms.map((room, index) => <Card
-                        key={index}
+                    rooms.map((room) => <Card
+                        key={room._id}
                         room={room}
                     />)
                 }
