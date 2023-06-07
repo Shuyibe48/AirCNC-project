@@ -4,13 +4,13 @@ const RoomInfo = ({ roomData }) => {
             <div className='flex flex-col gap-2'>
                 <div
                     className='
-              text-xl 
-              font-semibold 
-              flex 
-              flex-row 
-              items-center
-              gap-2
-            '
+                text-xl 
+                font-semibold 
+                flex 
+                flex-row 
+                items-center
+                gap-2
+              '
                 >
                     <div>Hosted by {roomData.host.name}</div>
 
@@ -24,13 +24,13 @@ const RoomInfo = ({ roomData }) => {
                 </div>
                 <div
                     className='
-              flex 
-              flex-row 
-              items-center 
-              gap-4 
-              font-light
-              text-neutral-500
-            '
+                flex 
+                flex-row 
+                items-center 
+                gap-4 
+                font-light
+                text-neutral-500
+              '
                 >
                     <div>{roomData.guests} guests</div>
                     <div>{roomData.bedrooms} rooms</div>
@@ -41,9 +41,9 @@ const RoomInfo = ({ roomData }) => {
             <hr />
             <div
                 className='
-        text-lg font-light text-neutral-500'
+          text-lg font-light text-neutral-500'
             >
-            {roomData.description}
+                {roomData.description}
             </div>
             <hr />
         </div>

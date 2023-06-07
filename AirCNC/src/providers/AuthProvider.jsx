@@ -11,7 +11,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
-// import { getRole } from '../api/auth'
+import { getRole } from '../api/auth'
 
 export const AuthContext = createContext(null)
 
@@ -23,11 +23,11 @@ const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   if (user) {
-  //     getRole(user.email).then(data => setRole(data))
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (user) {
+      getRole(user.email).then(data => setRole(data))
+    }
+  }, [user])
 
   const createUser = (email, password) => {
     setLoading(true)
@@ -64,6 +64,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
+      console.log('current user', currentUser)
       setLoading(false)
     })
     return () => {
@@ -86,9 +87,7 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={authInfo}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   )
 }
 

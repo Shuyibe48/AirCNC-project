@@ -3,18 +3,39 @@ import { useCallback, useContext, useState } from 'react'
 import { AuthContext } from '../../../providers/AuthProvider'
 import { Link } from 'react-router-dom'
 import Avatar from './Avatar'
+import HostModal from '../../Modal/HostRequestModal'
+import { becomeHost } from '../../../api/auth'
+import toast from 'react-hot-toast'
 
 const MenuDropdown = () => {
-    const { user, logOut } = useContext(AuthContext)
+    const { user, logOut, role, setRole } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState(false)
+    const [modal, setModal] = useState(false)
+
+
     const toggleOpen = useCallback(() => {
         setIsOpen(value => !value)
     }, [])
+
+    const modalHandler = email => {
+        becomeHost(email)
+            .then(data => {
+                console.log(data)
+                toast.success('You are host now, Post rooms')
+                setRole('host')
+                closeModal()
+            })
+    }
+
+    const closeModal = () => {
+        setModal(false)
+    }
+
     return (
         <div className='relative'>
             <div className='flex flex-row items-center gap-3'>
-                <div className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
-                    AirCNC your home
+                <div className='hidden md:block text-sm font-semibold rounded-full py-3 px-12 transition cursor-pointer'>
+                    <button onClick={() => setModal(true)} disabled={!user} className={`cursor-pointer hover:bg-neutral-100 ${role === 'host' ? 'hidden' : 'block'}`}>AirCNC your home</button>
                 </div>
                 <div
                     onClick={toggleOpen}
@@ -69,6 +90,12 @@ const MenuDropdown = () => {
                     </div>
                 </div>
             )}
+            <HostModal
+                modalHandler={modalHandler}
+                closeModal={closeModal}
+                isOpen={modal}
+                email={user?.email}
+            />
         </div>
     )
 }
